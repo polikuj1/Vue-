@@ -1,0 +1,10 @@
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "~bootstrap/scss/functions";
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import "./helpers/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/root";
+
+// 4. Include any optional Bootstrap CSS as needed
+@import "~bootstrap/scss/bootstrap";
