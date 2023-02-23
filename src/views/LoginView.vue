@@ -38,18 +38,20 @@ export default {
   },
   methods: {
     signIn() {
-      console.log(123);
       // 取用環境變數的資料
       const api = `${process.env.VUE_APP_API}admin/signin`;
       // Vue-axios的使用方法
       this.$http.post(api, this.user)
         .then((res) => {
-          const { token, expired } = res.data;
-          document.cookie = `hexToken=${token}; expires=${new Date(expired)};`;
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
+          if (res.data.success) {
+            // 採用解構賦值ES6的寫法，
+            const { token, expired } = res.data;
+            // 設定cookie ，前面為cookie的名稱和要儲存的內容，分號後為到期時間
+            document.cookie = `hexToken=${token}; expires=${new Date(expired)};`;
+            this.$router.push('/dashboard');
+          } else {
+            console.log(res.data.message);
+          }
         });
     },
   },
