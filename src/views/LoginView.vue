@@ -48,7 +48,7 @@ export default {
             const { token, expired } = res.data;
             // 設定cookie ，前面為cookie的名稱和要儲存的內容，分號後為到期時間
             document.cookie = `hexToken=${token}; expires=${new Date(expired)};`;
-            this.$router.push('/dashboard');
+            this.$router.push('/dashboard/products');
           } else {
             console.log(res.data.message);
           }
