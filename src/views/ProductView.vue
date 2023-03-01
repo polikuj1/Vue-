@@ -1,6 +1,6 @@
 <template>
   <div class="text-end">
-    <button type="button" class="btn btn-primary" @click="$refs.productModal.showModal()">
+    <button type="button" class="btn btn-primary" @click="openModal">
       增加產品
     </button>
   </div>
@@ -39,7 +39,7 @@
       </tr>
     </tbody>
   </table>
-  <Modal ref="productModal"></Modal>
+  <Modal ref="productModal" :product="tempProduct" @update-product="updateProduct"></Modal>
 </template>
 <script>
 import Modal from '../components/ProductModal.vue';
@@ -52,6 +52,7 @@ export default {
     return {
       products: [],
       pagination: {},
+      tempProduct: {},
     };
   },
   methods: {
@@ -64,23 +65,21 @@ export default {
           this.pagination = res.data.pagination;
         });
     },
-    addProducts() {
+    openModal() {
+      console.log(12);
+      this.tempProduct = {};
+      const productComponent = this.$refs.productModal;
+      productComponent.showModal();
+    },
+    updateProduct(item) {
+      this.tempProduct = item;
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
-      const newOne = {
-        data: {
-          category: '服裝',
-          title: '夾克',
-          unit: '件',
-          origin_price: 500,
-          price: 250,
-          is_enabled: 0,
-        },
-      };
-      this.$http.post(api, newOne)
+      const productComponent = this.$refs.productModal;
+      this.$http.post(api, { data: this.tempProduct })
         .then((res) => {
           console.log(res);
-          // this.products = res.data.products;
-          // this.pagination = res.data.pagination;
+          productComponent.hideModal();
+          this.getProducts();
         });
     },
     deleteProduct(e) {
@@ -94,7 +93,6 @@ export default {
     },
   },
   created() {
-    // this.addProducts();
     this.getProducts();
   },
 };
