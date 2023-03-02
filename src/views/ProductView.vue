@@ -34,20 +34,23 @@
             <button class="btn btn-outline-primary btn-sm"
             @click="openModal(false, item)">編輯</button>
             <button class="btn btn-outline-danger btn-sm"
-            :data-id="item.id" @click="deleteProduct">刪除</button>
+            :data-id="item.id" @click="openDeleteProduct(item)">刪除</button>
           </div>
         </td>
       </tr>
     </tbody>
   </table>
   <Modal ref="productModal" :product="tempProduct" @update-product="updateProduct"></Modal>
+  <Delmodal ref="deleteModal" :product="tempProduct" @delete-product="deleteProduct"/>
 </template>
 <script>
 import Modal from '../components/ProductModal.vue';
+import Delmodal from '../components/DelModal.vue';
 
 export default {
   components: {
     Modal,
+    Delmodal,
   },
   data() {
     return {
@@ -93,9 +96,16 @@ export default {
           productComponent.hideModal();
         });
     },
-    deleteProduct(e) {
-      const { id } = e.target.dataset;
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${id}`;
+    openDeleteProduct(item) {
+      this.tempProduct = { ...item };
+      const delModal = this.$refs.deleteModal;
+      delModal.showModal();
+    },
+    deleteProduct(item) {
+      this.tempProduct = item;
+      const delModal = this.$refs.deleteModal;
+      delModal.hideModal();
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${this.tempProduct.id}`;
       this.$http.delete(api)
         .then((res) => {
           console.log(res);
