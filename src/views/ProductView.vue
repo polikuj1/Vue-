@@ -79,25 +79,19 @@ export default {
     },
     updateProduct(item) {
       this.tempProduct = item;
+      let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
       let httpMethod = 'post';
-      if (this.isNew) {
-        const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
-        this.$http[httpMethod](api, { data: this.tempProduct })
-          .then((res) => {
-            console.log(res);
-            this.getProducts();
-          });
-      } else {
-        const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
+      if (!this.isNew) {
+        api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
         httpMethod = 'put';
-        this.$http[httpMethod](api, { data: this.tempProduct })
-          .then((res) => {
-            console.log(res);
-            this.getProducts();
-          });
       }
       const productComponent = this.$refs.productModal;
-      productComponent.hideModal();
+      this.$http[httpMethod](api, { data: this.tempProduct })
+        .then((res) => {
+          console.log(res);
+          this.getProducts();
+          productComponent.hideModal();
+        });
     },
     deleteProduct(e) {
       const { id } = e.target.dataset;
