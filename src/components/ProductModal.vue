@@ -48,8 +48,16 @@
                   ref="fileInput"
                   @change="uploadFile"
                 />
+                <input
+                  type="file"
+                  id="customFile1"
+                  class="form-control"
+                  ref="fileInput1"
+                  @change="uploadFile1"
+                />
               </div>
-              <img class="img-fluid" :src="tempProduct.imageUrl" alt="" />
+              <img class="img-fluid" v-for="img in tempProduct.imageUrl" :key="img"
+              :src="img" alt="" />
               <!-- 延伸技巧，多圖 -->
               <div class="mt-5" v-if="tempProduct.images">
                 <div v-for="(image, key) in tempProduct.images" class="mb-3 input-group" :key="key">
@@ -225,6 +233,8 @@ export default {
     },
     uploadFile() {
       const uploadFile = this.$refs.fileInput.files[0];
+      this.tempProduct.imageUrl = [];
+      const select = this.$refs.fileInput.id;
       const formData = new FormData();
       formData.append('file-to-upload', uploadFile);
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/upload`;
@@ -232,7 +242,23 @@ export default {
         .then((res) => {
           console.log(res.data);
           if (res.data.success) {
-            this.tempProduct.imageUrl = res.data.imageUrl;
+            this.tempProduct.imageUrl.push(res.data.imageUrl);
+            document.getElementById(select).value = '';
+          }
+        });
+    },
+    uploadFile1() {
+      const uploadFile = this.$refs.fileInput1.files[0];
+      const select = this.$refs.fileInput1.id;
+      const formData = new FormData();
+      formData.append('file-to-upload', uploadFile);
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/upload`;
+      this.$http.post(api, formData)
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.success) {
+            this.tempProduct.imageUrl.push(res.data.imageUrl);
+            document.getElementById(select).value = '';
           }
         });
     },
