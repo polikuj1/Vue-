@@ -42,6 +42,7 @@
   </table>
   <Modal ref="productModal" :product="tempProduct" @update-product="updateProduct"></Modal>
   <Delmodal ref="deleteModal" :product="tempProduct" @delete-product="deleteProduct"/>
+  <Loading-now :active="isLoading"></Loading-now>
 </template>
 <script>
 import Modal from '../components/ProductModal.vue';
@@ -58,13 +59,16 @@ export default {
       pagination: {},
       tempProduct: {},
       isNew: false,
+      isLoading: false,
     };
   },
   methods: {
     getProducts() {
+      this.isLoading = true;
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products`;
       this.$http.get(api)
         .then((res) => {
+          this.isLoading = false;
           console.log(res);
           this.products = res.data.products;
           this.pagination = res.data.pagination;
@@ -81,6 +85,7 @@ export default {
       productComponent.showModal();
     },
     updateProduct(item) {
+      this.isLoading = true;
       this.tempProduct = item;
       let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
       let httpMethod = 'post';
@@ -91,6 +96,7 @@ export default {
       const productComponent = this.$refs.productModal;
       this.$http[httpMethod](api, { data: this.tempProduct })
         .then((res) => {
+          this.isLoading = false;
           console.log(res);
           this.getProducts();
           productComponent.hideModal();
@@ -102,12 +108,14 @@ export default {
       delModal.showModal();
     },
     deleteProduct(item) {
+      this.isLoading = true;
       this.tempProduct = item;
       const delModal = this.$refs.deleteModal;
       delModal.hideModal();
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${this.tempProduct.id}`;
       this.$http.delete(api)
         .then((res) => {
+          this.isLoading = false;
           console.log(res);
           this.getProducts();
         });
