@@ -53,6 +53,7 @@ export default {
     Modal,
     Delmodal,
   },
+  inject: ['emitter'],
   data() {
     return {
       products: [],
@@ -98,8 +99,21 @@ export default {
         .then((res) => {
           this.isLoading = false;
           console.log(res);
-          this.getProducts();
           productComponent.hideModal();
+          if (res.data.success) {
+            this.getProducts();
+            this.emitter.emit('push-messages', {
+              style: 'success',
+              title: '更新成功',
+            });
+          } else {
+            console.log('新增資料失敗');
+            this.emitter.emit('push-messages', {
+              style: 'danger',
+              title: '更新失敗',
+              content: res.data.message.join('、'),
+            });
+          }
         });
     },
     openDeleteProduct(item) {

@@ -24,15 +24,22 @@
       </div>
     </form>
   </div>
+  <LoginModal ref="loginError"></LoginModal>
 </template>
 
 <script>
+import LoginModal from '../components/LoginModal.vue';
+
 export default {
+  components: {
+    LoginModal,
+  },
   data() {
     return {
       user: {
         username: '',
         password: '',
+        error: '',
       },
     };
   },
@@ -46,11 +53,15 @@ export default {
           if (res.data.success) {
             // 採用解構賦值ES6的寫法，
             const { token, expired } = res.data;
+            this.error = 123;
             // 設定cookie ，前面為cookie的名稱和要儲存的內容，分號後為到期時間
             document.cookie = `hexToken=${token}; expires=${new Date(expired)};`;
             this.$router.push('/dashboard/products');
           } else {
-            console.log(res.data.message);
+            console.log(res.data.error.message);
+            this.error = res.data.error.message;
+            const modal = this.$refs.loginError;
+            modal.showModal();
           }
         });
     },

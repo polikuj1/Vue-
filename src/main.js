@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 // 載入中的元件引入
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
+// axios套件的引用
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import App from './App.vue';
