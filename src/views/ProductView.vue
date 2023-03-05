@@ -40,6 +40,7 @@
       </tr>
     </tbody>
   </table>
+  <Pagination :pages="pageData" @update-page="getProducts"></Pagination>
   <Modal ref="productModal" :product="tempProduct" @update-product="updateProduct"></Modal>
   <Delmodal ref="deleteModal" :product="tempProduct" @delete-product="deleteProduct"/>
   <Loading-now :active="isLoading"></Loading-now>
@@ -47,11 +48,13 @@
 <script>
 import Modal from '../components/ProductModal.vue';
 import Delmodal from '../components/DelModal.vue';
+import Pagination from '../components/PagiNation.vue';
 
 export default {
   components: {
     Modal,
     Delmodal,
+    Pagination,
   },
   inject: ['emitter'],
   data() {
@@ -61,18 +64,19 @@ export default {
       tempProduct: {},
       isNew: false,
       isLoading: false,
+      pageData: {},
     };
   },
   methods: {
-    getProducts() {
+    getProducts(page = 1) {
       this.isLoading = true;
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products`;
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products?page=${page}`;
       this.$http.get(api)
         .then((res) => {
           this.isLoading = false;
           console.log(res);
           this.products = res.data.products;
-          this.pagination = res.data.pagination;
+          this.pageData = res.data.pagination;
         });
     },
     openModal(isNew, item) {
@@ -131,7 +135,13 @@ export default {
         .then((res) => {
           this.isLoading = false;
           console.log(res);
-          this.getProducts();
+          if (res.data.success) {
+            this.getProducts();
+            this.emitter.emit('push-messages', {
+              style: 'success',
+              title: '刪除成功',
+            });
+          }
         });
     },
   },
