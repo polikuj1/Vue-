@@ -7,8 +7,12 @@
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
-      <li class="page-item" v-for="page in pages.total_pages" :key="page">
+      <li class="page-item" v-for="page in pages.total_pages" :key="page"
+      :class="{ 'active': page === pages.current_page }">
         <a class="page-link" href="#" @click.prevent="updatePage(page)">{{ page }}</a>
+        <!-- 另一種寫法 -->
+        <!-- <a class=" page-link" href="#" @click.prevent="emit('update-page', page)">
+          {{ page }} </a> -->
       </li>
       <li class="page-item">
         <a class="page-link" href="#" aria-label="Next"
