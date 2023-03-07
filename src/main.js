@@ -5,6 +5,7 @@ import 'vue-loading-overlay/dist/css/index.css';
 // axios套件的引用
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+// 常用的方法js引入，千分位
 import { currency } from './methods/filters';
 import App from './App.vue';
 import router from './router';
