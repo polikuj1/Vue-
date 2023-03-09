@@ -34,8 +34,8 @@
         </td>
         <td>
           <div class="btn-group">
-            <button class="btn btn-outline-primary btn-sm"
-            >編輯</button>
+            <button class="btn btn-outline-primary btn-sm" @click="openOrderModal"
+            >檢視</button>
             <button class="btn btn-outline-danger btn-sm"
             >刪除</button>
           </div>
@@ -43,10 +43,16 @@
       </tr>
     </tbody>
   </table>
+  <OrderModal ref="orderModal"></OrderModal>
   <Loading-now :active="isLoading"></Loading-now>
 </template>
 <script>
+import OrderModal from '../components/OrderModal.vue';
+
 export default {
+  components: {
+    OrderModal,
+  },
   data() {
     return {
       isLoading: false,
@@ -67,6 +73,11 @@ export default {
     setTimestamp(time) {
       const timeStamp = time;
       console.log(timeStamp);
+    },
+    openOrderModal() {
+      console.log(123);
+      const orderComponent = this.$refs.orderModal;
+      orderComponent.showModal();
     },
   },
   created() {
