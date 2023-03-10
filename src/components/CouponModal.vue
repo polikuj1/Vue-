@@ -71,7 +71,13 @@ export default {
       this.coupon.due_date = Date.parse(this.expired);
     },
     Coupon() {
-
+      this.coupon = this.Coupon;
+      this.is_enabled = Boolean(this.Coupon.is_enabled);
+      const date = new Date(this.Coupon.due_date);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      this.expired = `${year}-${month}-${day}`;
     },
   },
   methods: {

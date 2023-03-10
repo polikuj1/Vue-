@@ -1,7 +1,7 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
   <div class="text-end">
-    <button type="button" class="btn btn-primary" @click="openCouponModal">
+    <button type="button" class="btn btn-primary" @click="openCouponModal(true)">
       新增優惠券
     </button>
   </div>
@@ -28,7 +28,7 @@
       </td>
       <td>
         <div class="btn-group">
-          <button class="btn btn-outline-primary btn-sm" @click="openCouponModal"
+          <button class="btn btn-outline-primary btn-sm" @click="openCouponModal(false, data)"
           >編輯</button>
           <button class="btn btn-outline-danger btn-sm" @click="deleteCoupon(data.id)"
           >刪除</button>
@@ -38,25 +38,38 @@
   </tbody>
 </table>
 <CouponModal ref="coupon" :Coupon="couponData" @coupon-emit="addCoupon"></CouponModal>
+<Pagination :pages="pagination"></Pagination>
 <Loading-now :active="isLoading"></Loading-now>
 </template>
 <script>
 import CouponModal from '../components/CouponModal.vue';
+import Pagination from '../components/PagiNation.vue';
 
 export default {
   components: {
     CouponModal,
+    Pagination,
   },
   data() {
     return {
       isLoading: false,
       couponData: {},
-      isPay: false,
       renderCoupon: [],
+      isNew: false,
+      pagination: {},
     };
   },
   methods: {
-    openCouponModal() {
+    openCouponModal(status, data) {
+      this.couponData = {
+        code: 'test',
+        is_enabled: 0,
+      };
+      console.log(data, status);
+      if (!status) {
+        this.couponData = data;
+      }
+      this.isNew = status;
       const couponComponent = this.$refs.coupon;
       couponComponent.showModal();
     },
@@ -65,15 +78,21 @@ export default {
       const api1 = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupons`;
       this.$http.get(api1).then((res) => {
         this.isLoading = false;
-        console.log(res.data.coupons);
+        console.log(res);
+        this.pagination = res.data.pagination;
         this.renderCoupon = res.data.coupons;
       });
     },
     addCoupon(order) {
       this.isLoading = true;
       this.couponData = order;
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon`;
-      this.$http.post(api, { data: this.couponData }).then((res) => {
+      let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon`;
+      let apiMethod = 'post';
+      if (!this.isNew) {
+        api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon/${this.couponData.id}`;
+        apiMethod = 'put';
+      }
+      this.$http[apiMethod](api, { data: this.couponData }).then((res) => {
         this.isLoading = false;
         console.log(res);
         this.getCoupon();
