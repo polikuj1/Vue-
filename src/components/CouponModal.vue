@@ -68,16 +68,15 @@ export default {
       this.coupon.is_enabled = Number(this.is_enabled);
     },
     expired() {
-      this.coupon.due_date = Date.parse(this.expired);
+      this.coupon.due_date = Math.floor(new Date(this.expired) / 1000);
+      // this.coupon.due_date = Date.parse(this.expired) / 1000結果是一樣的
     },
     Coupon() {
       this.coupon = this.Coupon;
       this.is_enabled = Boolean(this.Coupon.is_enabled);
-      const date = new Date(this.Coupon.due_date);
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-      this.expired = `${year}-${month}-${day}`;
+      const dateAndTime = new Date(this.coupon.due_date * 1000)
+        .toISOString().split('T');
+      [this.expired] = dateAndTime;
     },
   },
   methods: {
