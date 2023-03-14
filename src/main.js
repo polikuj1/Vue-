@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 // 載入中的元件引入
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';

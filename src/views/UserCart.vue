@@ -49,6 +49,7 @@ import Pagination from '../components/PagiNation.vue';
 import Footer from '../components/Footer.vue';
 
 export default {
+  inject: ['emitter'],
   components: {
     leftNav,
     Pagination,
@@ -61,10 +62,15 @@ export default {
       pagination: {},
       isLoading: false,
       searchWord: '',
+      productId: '',
     };
   },
   methods: {
     goProduct(id) {
+      this.productId = id;
+      this.emitter.emit('push-id', {
+        id: this.productId,
+      });
       this.$router.push(`/user/product/${id}`);
     },
     getProducts(page = 1) {

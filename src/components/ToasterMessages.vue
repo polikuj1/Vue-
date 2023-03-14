@@ -25,6 +25,10 @@ export default {
       const { style = 'success', title, content } = message;
       this.messages.push({ style, title, content });
     });
+    this.emitter.on('push-msg', (msg) => {
+      const { style, title } = msg;
+      this.messages.push({ style, title });
+    });
   },
 };
 </script>

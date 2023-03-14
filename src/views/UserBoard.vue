@@ -17,5 +17,21 @@
         </ul>
     </div>
   </nav>
+  <ToasterMessages></ToasterMessages>
   <router-view></router-view>
 </template>
+<script>
+import emitter from '@/methods/emitter';
+import ToasterMessages from '@/components/ToasterMessages.vue';
+
+export default {
+  components: {
+    ToasterMessages,
+  },
+  provide() {
+    return {
+      emitter,
+    };
+  },
+};
+</script>

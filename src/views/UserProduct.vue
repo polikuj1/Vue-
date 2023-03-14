@@ -19,18 +19,21 @@
           <p v-if="product.description">{{ product.description }}</p>
           <p v-else>商品介紹</p>
           <div class="price">
-            <p>原價{{ product.origin_price }} 元</p>
-            <p>特價 {{ product.price }}元</p>
+            <p>原價<i class="bi bi-currency-dollar"></i>{{ product.origin_price }} 元</p>
+            <p>特價<i class="bi bi-currency-dollar"></i>{{ product.price }}元</p>
           </div>
         </div>
         <form action="">
           <label for="num">預計人數</label>
-          <input type="number" id="num" min="1" max="10">
+          <input type="number" id="num" min="1" max="10" v-model="qty">
           <div>
-            <button type="button">訂購</button>
+            <button type="button" @click="addCart">訂購</button>
           </div>
         </form>
       </div>
+    </div>
+    <div class="cart" v-if="this.cart.qty !== 0">
+      <a href="" @click.prevent=""><i class="bi bi-cart3">{{ cart.qty }}</i></a>
     </div>
   </div>
   <Footer></Footer>
@@ -43,6 +46,7 @@
 import Footer from '../components/Footer.vue';
 
 export default {
+  inject: ['emitter'],
   components: {
     Footer,
   },
@@ -50,17 +54,54 @@ export default {
     return {
       product: {},
       isLoading: false,
+      id: '',
+      qty: 0,
+      cart: {},
     };
   },
+  methods: {
+    getCart() {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
+      this.$http.get(api).then((res) => {
+        console.log(res);
+      });
+    },
+    getProduct() {
+      this.isLoading = true;
+      const id = this.$route.params.productId;
+      this.id = id;
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/product/${id}`;
+      this.$http.get(api).then((res) => {
+        this.isLoading = false;
+        console.log(res);
+        this.product = res.data.product;
+      });
+    },
+    addCart() {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
+      const cart = {
+        product_id: this.id,
+        qty: this.qty,
+      };
+      this.$http.post(api, { data: cart })
+        .then((res) => {
+          console.log(res);
+          this.cart = res.data.data;
+          this.emitter.emit('push-msg', {
+            style: 'success',
+            title: '已經加入購物車',
+          });
+        });
+    },
+  },
+  // mounted() {
+  //   this.emitter.on('push-id', (id) => {
+  //     console.log(id.id);
+  //   });
+  // },
   created() {
-    this.isLoading = true;
-    const id = this.$route.params.productId;
-    const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/product/${id}`;
-    this.$http.get(api).then((res) => {
-      this.isLoading = false;
-      console.log(res);
-      this.product = res.data.product;
-    });
+    this.getProduct();
+    this.getCart();
   },
 };
 </script>
