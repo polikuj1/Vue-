@@ -1,3 +1,4 @@
+<!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
 <!-- eslint-disable vuejs-accessibility/form-control-has-label -->
 <template>
   <div class="header">
@@ -14,6 +15,7 @@
       <button type="button" @click="searchProduct">搜尋</button>
     </div>
     <select name="" id="">
+      <option value="" default>篩選</option>
       <option value="">價錢(低到高)</option>
       <option value="">價錢(高到低)</option>
     </select>
@@ -25,7 +27,8 @@
         <i></i>
       </div>
       <div class="txt">
-        <a href="" style="text-decoration: none;" @click.prevent=""><h4>{{ product.title }}</h4></a>
+        <a href="" style="text-decoration: none;" @click.prevent="goProduct(product.id)"
+        ><h4>{{ product.title }}</h4></a>
         <div>
           <span>原價{{ product.origin_price}}</span>
           <span>特價{{ product.price }}</span>
@@ -61,6 +64,9 @@ export default {
     };
   },
   methods: {
+    goProduct(id) {
+      this.$router.push(`/user/product/${id}`);
+    },
     getProducts(page = 1) {
       this.isLoading = true;
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products?page=${page}`;
