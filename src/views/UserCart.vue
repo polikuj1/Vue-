@@ -37,7 +37,6 @@
     </div>
   </div>
 <Pagination :pages="pagination" style="margin-top: 50px"></Pagination>
-<Footer></Footer>
 <Loading-now :active="isLoading"></Loading-now>
 </template>
 <style>
@@ -46,14 +45,12 @@
 <script>
 import leftNav from '../components/LeftNav.vue';
 import Pagination from '../components/PagiNation.vue';
-import Footer from '../components/Footer.vue';
 
 export default {
   inject: ['emitter'],
   components: {
     leftNav,
     Pagination,
-    Footer,
   },
   data() {
     return {

@@ -32,23 +32,21 @@
         </form>
       </div>
     </div>
-    <div class="cart" v-if="this.cart.qty !== 0">
-      <a href="" @click.prevent=""><i class="bi bi-cart3">{{ cart.qty }}</i></a>
+    <div class="cart" v-if="cart.carts.length">
+      <a href="#" @click.prevent="this.$router.push('/user/cartOrder')">
+        <i class="bi bi-cart3">{{ cart.carts.length }}</i></a>
     </div>
   </div>
-  <Footer></Footer>
   <Loading-now :active="isLoading"></Loading-now>
 </template>
 <style>
 @import '../assets/userProduct.css';
 </style>
 <script>
-import Footer from '../components/Footer.vue';
-
 export default {
   inject: ['emitter'],
   components: {
-    Footer,
+
   },
   data() {
     return {
@@ -64,6 +62,7 @@ export default {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
       this.$http.get(api).then((res) => {
         console.log(res);
+        this.cart = res.data.data;
       });
     },
     getProduct() {
@@ -86,7 +85,7 @@ export default {
       this.$http.post(api, { data: cart })
         .then((res) => {
           console.log(res);
-          this.cart = res.data.data;
+          this.getCart();
           this.emitter.emit('push-msg', {
             style: 'success',
             title: '已經加入購物車',
