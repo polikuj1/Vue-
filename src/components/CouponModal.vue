@@ -74,9 +74,8 @@ export default {
     Coupon() {
       this.coupon = this.Coupon;
       this.is_enabled = Boolean(this.Coupon.is_enabled);
-      const dateAndTime = new Date(this.coupon.due_date * 1000)
-        .toISOString().split('T');
-      [this.expired] = dateAndTime;
+      // const dateAndTime = new Date(this.coupon.due_date * 1000).toISOString().split('T');
+      // [this.expired] = dateAndTime;
     },
   },
   methods: {

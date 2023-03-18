@@ -32,6 +32,8 @@
         </form>
       </div>
     </div>
+    <!-- 因為cart.carts要從api取得資料才有東西，在那之前會是undefined，所以carts.length就會出錯
+    解決方法於data中的cart新增carts為空陣列，另一個方法"可選串聯運算子"cart.carts?.length可以探索尚未存在的的屬性-->
     <div class="cart" v-if="cart.carts.length">
       <a href="#" @click.prevent="this.$router.push('/user/cartOrder')">
         <i class="bi bi-cart3">{{ cart.carts.length }}</i></a>
@@ -53,8 +55,10 @@ export default {
       product: {},
       isLoading: false,
       id: '',
-      qty: 0,
-      cart: {},
+      qty: 1,
+      cart: {
+        carts: [],
+      },
     };
   },
   methods: {

@@ -69,6 +69,9 @@ export default {
       if (!status) {
         this.couponData = data;
       }
+      if (status) {
+        this.couponData = {};
+      }
       this.isNew = status;
       const couponComponent = this.$refs.coupon;
       couponComponent.showModal();
@@ -86,6 +89,7 @@ export default {
     addCoupon(order) {
       this.isLoading = true;
       this.couponData = order;
+      this.couponData.code = 'test';
       let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon`;
       let apiMethod = 'post';
       if (!this.isNew) {
