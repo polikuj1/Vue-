@@ -35,7 +35,7 @@
         <div>
           <h6 class="col-2">付款狀態</h6>
           <p v-if="order.is_paid">已付款</p>
-          <P v-else>未付款</P>
+          <p v-else>未付款</p>
         </div>
         <div class="paid-button">
           <button class="btn btn-danger" :disabled="order.is_paid">付款確認</button>

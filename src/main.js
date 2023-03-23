@@ -1,4 +1,8 @@
 import { createApp } from 'vue';
+// 視窗滾動效果
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+// 表單驗證套件
 import {
   Field, Form, ErrorMessage, defineRule, configure,
 } from 'vee-validate';
@@ -33,6 +37,7 @@ app.component('VForm', Form);
 app.component('ErrorMessage', ErrorMessage);
 // 全域註冊屬性的方式，$filters為自訂義的名稱，後面為要加入的函式
 app.config.globalProperties.$filters = { currency, date };
+AOS.init();
 app.use(VueAxios, axios);
 app.use(router);
 // 全域中註冊元件，到處都可以直接使用

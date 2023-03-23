@@ -1,16 +1,73 @@
 * {
   margin: 0;
   padding: 0;
-  /* list-style-type: none; */
+  list-style-type: none;
   text-decoration: none;
 }
-.container1 {
+.footer {
   margin-top: 50px;
   width: 100%;
-  background: linear-gradient(135deg,pink,rgb(189, 143, 230));
+  border-top: 1px solid #aaa;
+  display: flex;
+  align-items: center;
+  background-color: #F5F5F5;
 }
-.footer {
-  background: linear-gradient(135deg,pink,rgb(189, 143, 230));
+.subscribe {
+  width: 45%;
+  margin: 30px 2.5% 10px;
   text-align: center;
-  padding: 10px 0;
+}
+.subscribe label {
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.subscribe label input {
+  margin-top: 10px;
+  width: 200px;
+  outline: none;
+  padding-left: 10px;
+  border: 1px solid black;
+  border-right: none;
+  background-color: transparent;
+}
+::placeholder {
+  font-size: 15px;
+}
+.subscribe label input:focus {
+  background-color: #e5e5e5;
+}
+.subscribe label button {
+  border: none;
+  background-color: transparent;
+  border: 1px solid black;
+  border-left: none;
+}
+.subscribe label button i {
+  font-size: 20px;
+  padding: 5px;
+}
+.copyright {
+  width: 45%;
+  margin: 30px 2.5% 10px;
+  text-align: center;
+  color: #746E68;
+}
+.copyright h4 {
+  color: black;
+  margin-bottom: 30px;
+}
+.copyright p {
+  margin-bottom: 30px;
+}
+.subscribe .social-media {
+  margin-top: 10px;
+}
+.subscribe .social-media i {
+  margin-right: 15px;
+  font-size: 20px;
+}
+.subscribe .social-media i:hover {
+  color: #746E68;
 }
