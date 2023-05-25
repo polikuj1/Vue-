@@ -71,3 +71,12 @@
 .subscribe .social-media i:hover {
   color: #746E68;
 }
+
+@media(max-width: 768px) {
+  .footer {
+    flex-direction: column;
+  }
+  .subscribe, .copyright {
+    width: 100%;
+  }
+}

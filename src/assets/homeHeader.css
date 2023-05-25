@@ -5,23 +5,32 @@
 }
 /* header */
 .header {
- width: 100%;
+  max-width: 100%;
   display: flex;
   align-items: center;
   backdrop-filter: blur(2px);
   padding: 5px;
+  box-sizing: border-box;
   position: fixed;
   top: 10px;
   color: rgb(255, 255, 255);
   z-index: 1;
+  left: 0;
   right: 0;
   transition: 1s;
 }
+.header button {
+  background-color: transparent;
+  border: none;
+  display: none;
+  border-radius: 10px;
+}
 .logo {
-  width: 25%;
+  /* width: 25%; */
+  box-sizing: border-box;
   padding: 10px;
   border-radius: 5px;
-  /* margin-left: 30px; */
+  margin-left: 30px;
 }
 .logo a {
   text-align: center;
@@ -35,9 +44,10 @@
   background-color: rgb(0, 0, 0, .5);
 }
 .menu {
-  width: 65%;
+  /* width: 60%; */
   display: flex;
-  margin-left: 50px;
+  box-sizing: border-box;
+  padding-left: 50px;
 }
 .menu a {
   margin-right: 50px;
@@ -50,28 +60,38 @@
   border-bottom: 1px solid transparent;
   transition: .5s;
 }
+.menu a.responsive {
+  display: block;
+}
+.menu button:hover {
+  background-color: #fff;
+}
+.menu i {
+  font-size: 2em;
+}
 .menu a:hover {
   border-bottom: 1px solid white;
 }
 .shop-cart {
-  width: 10%;
+  /* width: 10%; */
+  margin-left: 50px;
   height: 45px;
-  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 0.5px solid #aaa;
-  margin-right: 30px;
+  /* border: 0.5px solid #aaa; */
+  box-sizing: border-box;
+  padding: 5px;
 }
 .shop-cart:hover {
   background-color: rgb(0, 0, 0, .5);
   cursor: pointer;
   animation: rotate .3s infinite alternate;
 } 
-.shop-cart p {
-  margin-bottom: 0;
-  margin-right: 20px;
+.shop-cart i {
+  font-size: 20px;
 }
+
 
 @keyframes rotate {
   0% {
@@ -79,6 +99,52 @@
   }
   100% {
     transform: rotate(-5deg);
+  }
+}
+
+@media(max-width: 768px) {
+  .header {
+    display: block;
+    padding: 0;
+    padding-bottom: 5px;
+  }
+  .logo {
+    margin-left: 0;
+    width: 60%;
+  }
+  .logo a{
+    text-align-last: left;
+  }
+  .logo h4 {
+    font-size: 18px;
+  }
+  .menu {
+    width: 100%;
+    display: block;
+    padding: 0;
+    text-align: center;
+    background-color: rgba(0, 0, 0, .3)
+  }
+  .menu a {
+    width: 80%;
+    display: none;
+    font-size: 10px;
+    padding: 0;
+    margin-right: 30px;
+  }
+  .menu a:hover {
+    color: rgb(245, 245, 5);
+  }
+  .shop-cart {
+    display: none;
+  }
+  .header button {
+    display: block;
+    position: absolute;
+    right: 30px;
+    top: 10px;
+    font-size: 30px;
+    color: #fff;
   }
 }
 

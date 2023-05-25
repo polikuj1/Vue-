@@ -2,19 +2,20 @@
 <!-- eslint-disable vuejs-accessibility/label-has-for -->
 <template>
   <div class="header" ref="header">
-    <div class="logo">
-      <a href=""><h4>Japanese Drama Explore</h4></a>
-    </div>
-    <nav class="menu">
-      <a href="#" @click.prevent="this.$router.push('/user/cart')">首頁</a>
-      <a href="#">關於我們</a>
-      <a href="#">追劇行程</a>
-      <a href="#">聯絡方式</a>
-    </nav>
-    <div class="shop-cart">
-      <p>商店</p>
-      <i class="bi bi-cart3"></i>
-    </div>
+      <div class="logo">
+        <a href=""><h4>Japanese Drama Explore</h4></a>
+      </div>
+      <nav class="menu">
+        <a href="#" @click.prevent="this.$router.push('/user/home')">首頁</a>
+        <a href="#" @click.prevent="this.$router.push('/user/about')">關於我們</a>
+        <a href="#" @click.prevent="this.$router.push('/user/cart')">追劇行程</a>
+        <a href="#">聯絡方式</a>
+      </nav>
+      <button type="button" @click="openNav"><i class="bi bi-list"></i></button>
+      <div class="shop-cart">
+        <!-- <p>購物車</p> -->
+        <i class="bi bi-cart3"></i>
+      </div>
   </div>
 </template>
 <style>
@@ -28,6 +29,18 @@ export default {
     };
   },
   methods: {
+    openNav() {
+      const menu = document.querySelectorAll('.menu a');
+      const logo = document.querySelector('.logo');
+      menu.forEach((item) => {
+        item.classList.toggle('responsive');
+        if (item.classList.contains('responsive')) {
+          logo.style.display = 'none';
+        } else {
+          logo.style.display = 'block';
+        }
+      });
+    },
     moveDown() {
       console.log(123);
       window.scroll(0, 600);
